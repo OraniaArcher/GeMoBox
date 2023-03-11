@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">GeMoBox</string>
+    <string name="f_name_hint">Enter first name</string>
+    <string name="l_name_hint">Enter last name</string>
+    <string name="save_text">Save</string>
+    <string name="empty">Enter first and last name</string>
+    <string name="description_text">Plus button icon</string>
+    <string name="update_text">Update</string>
+    <string name="delete_text">Delete</string>
+    <string name="movie_title_hint">Enter title</string>
+    <string name="movie_ticket_hint">Enter ordinal symbol</string>
+    <string name="movie_runtime_hint">Enter runtime in minutes</string>
+    <string name="movie_release_year_hint">Enter release year</string>
+    <string name="empty_movie_title">Enter movie title</string>
+    <string name="select_directors_text">Select Directors</string>
+</resources>
