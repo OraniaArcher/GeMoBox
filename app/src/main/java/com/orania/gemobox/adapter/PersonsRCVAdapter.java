@@ -49,6 +49,10 @@ public class PersonsRCVAdapter extends RecyclerView.Adapter<PersonsRCVAdapter.Vi
         holder.lName.setText(person.getPersonLastName());
 
         holder.bind(person, selectionTracker.isSelected(person));
+
+        Log.d("PERSONSADAP", "getItemId "+holder.getItemId()+"");
+        Log.d("PERSONSADAP", "getItemViewType "+holder.getItemViewType()+"");
+        Log.d("PERSONSADAP", "getClass "+holder.getClass().toString());
     }
 
     @Override
@@ -110,11 +114,11 @@ public class PersonsRCVAdapter extends RecyclerView.Adapter<PersonsRCVAdapter.Vi
         this.selectionTracker = selectionTracker;
     }
 
-    //@Override
-    //public long getItemId(int position) {
-        //Log.d("DUPAKWAS", "getIdPerson " + personList.get(position).getIdPerson());
-        //return personList.get(position).getIdPerson();
-    //}
+    @Override
+    public long getItemId(int position) {
+        Log.d("DUPAKWAS", "getIdPerson " + personList.get(position).getIdPerson());
+        return personList.get(position).getIdPerson();
+    }
 
 
 }

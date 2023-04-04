@@ -50,6 +50,11 @@ public class MoviesRCVAdapter extends RecyclerView.Adapter<MoviesRCVAdapter.View
         }
 
         holder.movieDirectors.setText(directorsBldr);
+
+        Log.d("MOVIESADAP", "getItemId "+holder.getItemId()+"");
+        Log.d("MOVIESADAP", "getItemViewType "+holder.getItemViewType()+"");
+        Log.d("MOVIESADAP", "getClass "+holder.getClass().toString());
+
     }
 
     @Override

@@ -36,7 +36,7 @@ import androidx.recyclerview.widget.RecyclerView;
 public class PersonsActivity extends AppCompatActivity implements PersonsRCVAdapter.OnPersonClickListener {
     private static final int NEW_PERSON_ACTIVITY_REQUEST_CODE = 1;
     public static final String PERSON_ID = "person_id";
-    public static final int SCOPE_CACHED = 1;
+    public static final int SCOPE_MAPPED = 1;
 
     //GemoboxRoomDatabase db;
     //AllDao allDao;
@@ -114,26 +114,26 @@ public class PersonsActivity extends AppCompatActivity implements PersonsRCVAdap
 
             //Set up adapter
             recyclerPersonViewAdapter = new PersonsRCVAdapter(persons, PersonsActivity.this, this);
-            //recyclerPersonViewAdapter.setHasStableIds(true);
+            recyclerPersonViewAdapter.setHasStableIds(true);
             recyclerPersonView.setAdapter(recyclerPersonViewAdapter);
 
 
 
-            selectionTracker = new SelectionTracker.Builder<>(
+            selectionTracker = new SelectionTracker.Builder<Person>(
                     "my-selection-id",
                     recyclerPersonView,
-                    new PersonsIKProvider(SCOPE_CACHED, persons),
+                    new PersonsIKProvider(SCOPE_MAPPED, persons, recyclerPersonViewAdapter, recyclerPersonView),
                     new ItemsDetailsLookup(recyclerPersonView),
-                    StorageStrategy.createLongStorage()
+                    StorageStrategy.createParcelableStorage(Person.class)
             ).withOnItemActivatedListener(new OnItemActivatedListener() {
                 @Override
                 public boolean onItemActivated(@NonNull ItemDetailsLookup.ItemDetails item, @NonNull MotionEvent e) {
                     //Log.d("DUPAKWAS", "Selected ID " + item.getSelectionKey());
-                    Log.d("DUPAKWAS", "getPosition " + item.getPosition());
+                    Log.d("GIL", "onItemActivated getPosition " + item.getPosition());
 
                     //zawolane onPersonClick
                     Person person = Objects.requireNonNull(gemoboxViewModel.allPersons.getValue()).get(item.getPosition());
-                    Log.d("MOVIE", "onPersonClick: " + person.getPersonFirstName());
+                    Log.d("GIL", "onPersonClick: " + person.getPersonFirstName());
 
                     Intent intent = new Intent(PersonsActivity.this, NewPerson.class);
                     intent.putExtra(PERSON_ID, person.getIdPerson());
@@ -148,12 +148,16 @@ public class PersonsActivity extends AppCompatActivity implements PersonsRCVAdap
             selectionTracker.addObserver(new SelectionTracker.SelectionObserver() {
                 @Override
                 public void onItemStateChanged(@NonNull Object key, boolean selected) {
+
+                    Log.d("GIL", "onItemStateChanged: " + key + " getSelection " + selectionTracker.getSelection().size());
+
+
                     super.onItemStateChanged(key, selected);
                 }
 
                 @Override
                 public void onSelectionRefresh() {
-                    Log.d("DUPAKWAS", "onSelectionRefresh");
+                    Log.d("GIL", "onSelectionRefresh");
                     super.onSelectionRefresh();
                 }
 
@@ -162,7 +166,7 @@ public class PersonsActivity extends AppCompatActivity implements PersonsRCVAdap
                     super.onSelectionChanged();
                     if (selectionTracker.hasSelection() && actionMode == null) {
                         actionMode = startSupportActionMode(new ActionModeController(PersonsActivity.this, selectionTracker, gemoboxViewModel, persons));
-                        Log.d("DUPAKWAS", "onSelectionChanged: " + selectionTracker.getSelection().size());
+                        Log.d("GIL", "onSelectionChanged: " + selectionTracker.getSelection().size());
                     } else if (!selectionTracker.hasSelection() && actionMode != null) {
                         actionMode.finish();
                         actionMode = null;
@@ -170,7 +174,7 @@ public class PersonsActivity extends AppCompatActivity implements PersonsRCVAdap
 
                     Iterator<Person> itemIterable = selectionTracker.getSelection().iterator();
                     while (itemIterable.hasNext()) {
-                        Log.d("DUPAKWAS itemIterable ", itemIterable.next().getPersonFirstName());
+                        Log.d("GIL", "itemIterable " + itemIterable.next().getPersonFirstName());
                     }
 
                 }

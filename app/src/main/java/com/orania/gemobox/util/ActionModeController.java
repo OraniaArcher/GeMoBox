@@ -71,6 +71,7 @@ public class ActionModeController implements ActionMode.Callback {
                 }
 
 
+
                 //Intent intentPersonsView = new Intent(context, PersonsActivity.class);
                 //context.startActivity(intentPersonsView);
 
